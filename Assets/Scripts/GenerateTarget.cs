@@ -30,12 +30,12 @@ public class GenerateTarget : MonoBehaviour
         shootDirection = transform.rotation;
         shootDirection.eulerAngles = new Vector3(0, shootDirection.eulerAngles.y, 0);
 
-        if (stanceIndex == 5)
+        if(stanceIndex == 5)
         {
             StartCoroutine(wait());
             GetComponent<GenerateTarget>().enabled = false;
         }
-    }
+	}
 
     IEnumerator wait()
     {
