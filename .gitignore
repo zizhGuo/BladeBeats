@@ -1,0 +1,7 @@
+Library/
+Temp/
+*.cache
+VR-Martial-Arts.sln
+*.csproj
+.vs/
+obj/
