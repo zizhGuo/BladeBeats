@@ -53,7 +53,7 @@ public class StartStance : MonoBehaviour
 
     IEnumerator createMoves()
     {
-        for (int i = 0; i < moveNumber; i++)
+        for (int i = 0; i < 1; i++)
         {
             Quaternion moveR = new Quaternion();
             moveR.eulerAngles = transform.right;

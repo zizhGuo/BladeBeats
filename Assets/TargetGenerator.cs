@@ -7,6 +7,7 @@ public class TargetGenerator : MonoBehaviour
 {
     public GameObject target;
     public Transform player;
+    public GameObject teleportBase;
 
     public Quaternion shootDirection;
     public int stanceIndex;
@@ -18,6 +19,7 @@ public class TargetGenerator : MonoBehaviour
     public float delayTime = 1.7f;
     public int interval = 10;
     public int amplitude = 5000;
+    bool Flag = false;
 
     // Use this for initialization
     void Start()
@@ -44,27 +46,43 @@ public class TargetGenerator : MonoBehaviour
         //    yield return 0;
         //}
 
-        bool Flag = true;
+
 
         for (float i = 0; i < timeDuration; i += Time.deltaTime)
         {
-            
-            if (detector._beat[(int)((i / timeDuration) * (length / 1024))] == 0 && detector._beat[(int)((i / timeDuration) * (length / 1024))+1] == 1 && Flag == true)
+
+            if (detector._beat[(int)((i / timeDuration) * (length / 1024))] == 1 && !Flag)
             {
                 GetComponent<Renderer>().material.color = Color.black;
-                GameObject newTarget = Instantiate(target, transform.position, shootDirection);
-                Destroy(newTarget, 30f);
-                Flag = false;
+                teleportBase.GetComponent<Renderer>().material.color = Color.black;
+                // GameObject newTarget = Instantiate(target, transform.position, shootDirection);
+                //Destroy(newTarget, 30f);
+                Flag = true;
+                print("flag1" + Flag);
             }
+            if (Flag)
+            {
+                teleportBase.GetComponent<Renderer>().material.color = Color.red;
+
+            }
+            yield return 0;
             if (detector._beat[(int)((i / timeDuration) * (length / 1024))] != 1)
             {
                 GetComponent<Renderer>().material.color = Color.red;
                 //color = Color.red;
             }
-            //if (detector._beat[(int)((i / timeDuration) * (length / 1024))] == 1 && Flag == false)
-            //{
-            //    Flag = true;
-            //}
+            if (detector._beat[(int)((i / timeDuration) * (length / 1024))] == 1 && Flag)
+            {
+                GameObject newTarget = Instantiate(target, transform.position, shootDirection);
+                teleportBase.GetComponent<Renderer>().material.color = Color.red;
+                Flag = false;
+                print("flag2" + Flag);
+            }
+            if (!Flag)
+            {
+                teleportBase.GetComponent<Renderer>().material.color = Color.black;
+
+            }
             yield return 0;
         }
         // yield return 0;
