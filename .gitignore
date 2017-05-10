@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /[Ll]ibrary/
 
 /[Tt]emp/
@@ -65,3 +66,12 @@ sysinfo.txt
 *.apk
 
 *.unitypackage
+=======
+Library/
+Temp/
+*.cache
+VR-Martial-Arts.sln
+*.csproj
+.vs/
+obj/
+>>>>>>> 42b856de71c2765c90724d1a8eb4c5ba59b636ca
