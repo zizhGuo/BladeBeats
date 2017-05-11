@@ -8,6 +8,7 @@ public class TargetGenerator : MonoBehaviour
     public GameObject target;
     public Transform player;
     public GameObject teleportBase;
+    public GameObject teleportManager;
 
     public Quaternion shootDirection;
     public int stanceIndex;
@@ -22,6 +23,7 @@ public class TargetGenerator : MonoBehaviour
     bool Flag = false;
     public bool ableTeleport = false;
     public GameObject[] platform;
+    public GameObject[] directionalTarget;
     //public Transform[] platform;
     public int platformIndex;
     public int playerPosIndex = 0;
@@ -99,6 +101,11 @@ public class TargetGenerator : MonoBehaviour
             {
                 print("outer else");
                 GetComponent<Renderer>().material.color = Color.red;
+                //if (teleportManager.playerPos)
+                //{
+
+                //} 
+                ableTeleport = true;
 
                 if (platformIndex < platform.Length)
                 {

@@ -30,6 +30,7 @@ public class TeleportController : MonoBehaviour
             {
                 playerPos = platform[3].transform;
                 targetGenerator.ableTeleport = false;
+                targetGenerator.playerPosIndex = 3;
             }
             else
             {
@@ -37,11 +38,13 @@ public class TeleportController : MonoBehaviour
                 {
                     playerPos = platform[2].transform;
                     targetGenerator.ableTeleport = false;
+                    targetGenerator.playerPosIndex = 2;
                 }
                 else
                 {
                     playerPos = platform[1].transform;
                     targetGenerator.ableTeleport = false;
+                    targetGenerator.playerPosIndex = 1;
                 }
             }
         }
@@ -51,6 +54,7 @@ public class TeleportController : MonoBehaviour
             {
                 playerPos = platform[0].transform;
                 targetGenerator.ableTeleport = false;
+                targetGenerator.playerPosIndex = 0;
             }
             else
             {
@@ -58,11 +62,13 @@ public class TeleportController : MonoBehaviour
                 {
                     playerPos = platform[3].transform;
                     targetGenerator.ableTeleport = false;
+                    targetGenerator.playerPosIndex = 3;
                 }
                 else
                 {
                     playerPos = platform[2].transform;
                     targetGenerator.ableTeleport = false;
+                    targetGenerator.playerPosIndex = 2;
                 }
             }
         }
@@ -72,6 +78,7 @@ public class TeleportController : MonoBehaviour
             {
                 playerPos = platform[1].transform;
                 targetGenerator.ableTeleport = false;
+                targetGenerator.playerPosIndex = 1;
             }
             else
             {
@@ -79,11 +86,13 @@ public class TeleportController : MonoBehaviour
                 {
                     playerPos = platform[0].transform;
                     targetGenerator.ableTeleport = false;
+                    targetGenerator.playerPosIndex = 0;
                 }
                 else
                 {
                     playerPos = platform[3].transform;
                     targetGenerator.ableTeleport = false;
+                    targetGenerator.playerPosIndex = 3;
                 }
             }
         }
@@ -93,6 +102,7 @@ public class TeleportController : MonoBehaviour
             {
                 playerPos = platform[2].transform;
                 targetGenerator.ableTeleport = false;
+                targetGenerator.playerPosIndex = 2;
             }
             else
             {
@@ -100,11 +110,13 @@ public class TeleportController : MonoBehaviour
                 {
                     playerPos = platform[1].transform;
                     targetGenerator.ableTeleport = false;
+                    targetGenerator.playerPosIndex = 1;
                 }
                 else
                 {
                     playerPos = platform[0].transform;
                     targetGenerator.ableTeleport = false;
+                    targetGenerator.playerPosIndex = 0;
                 }
             }
         }
