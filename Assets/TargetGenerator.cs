@@ -20,7 +20,11 @@ public class TargetGenerator : MonoBehaviour
     public int interval = 10;
     public int amplitude = 5000;
     bool Flag = false;
-
+    public bool ableTeleport = false;
+    public GameObject[] platform;
+    //public Transform[] platform;
+    public int platformIndex;
+    public int playerPosIndex = 0;
     // Use this for initialization
     void Start()
     {
@@ -35,9 +39,9 @@ public class TargetGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(player);
-        shootDirection = transform.rotation;
-        shootDirection.eulerAngles = new Vector3(0, shootDirection.eulerAngles.y, 0);
+        //transform.LookAt(player);
+        //shootDirection = transform.rotation;
+        //shootDirection.eulerAngles = new Vector3(0, shootDirection.eulerAngles.y, 0);
     }
     private IEnumerator TargetInitiate()
     {
@@ -47,43 +51,63 @@ public class TargetGenerator : MonoBehaviour
         //}
 
 
+        print("song length: " + timeDuration);
 
         for (float i = 0; i < timeDuration; i += Time.deltaTime)
         {
+            //print("For: " + i + " ,deltaTime: " + Time.deltaTime);
 
-            if (detector._beat[(int)((i / timeDuration) * (length / 1024))] == 1 && !Flag)
-            {
-                GetComponent<Renderer>().material.color = Color.black;
-                teleportBase.GetComponent<Renderer>().material.color = Color.black;
-                // GameObject newTarget = Instantiate(target, transform.position, shootDirection);
-                //Destroy(newTarget, 30f);
-                Flag = true;
-                print("flag1" + Flag);
-            }
-            if (Flag)
-            {
-                teleportBase.GetComponent<Renderer>().material.color = Color.red;
 
-            }
-            yield return 0;
-            if (detector._beat[(int)((i / timeDuration) * (length / 1024))] != 1)
+            if (detector._beat[(int)((i / timeDuration) * (length / 1024))] == 1)
             {
+                print("outer if");
+
+                if (!Flag)
+                {
+                    //ableTeleport = true;
+                    //platform[platformIndex].GetComponent<Renderer>().material.color = Color.red;
+
+
+
+                    GetComponent<Renderer>().material.color = Color.red;
+                    GameObject newTarget = Instantiate(target, transform.position, shootDirection);
+                    Destroy(newTarget, 30f);
+                    print("flag1: " + Flag + ", time: " + Time.time);
+                    Flag = true;
+                }
+                else
+                {
+                    while (platformIndex == playerPosIndex || platformIndex >= platform.Length)
+                    {
+                        platformIndex = Random.Range(0, 4);
+                    }
+
+                    playerPosIndex = platformIndex;
+
+                    //print("platformIndex: " + platformIndex + ", " + platform.Length);
+                    transform.LookAt(platform[platformIndex].transform);
+                    shootDirection = transform.rotation;
+                    shootDirection.eulerAngles = new Vector3(0, shootDirection.eulerAngles.y, 0);
+
+                    platform[platformIndex].GetComponent<Renderer>().material.color = Color.black;
+                    Flag = false;
+                    print("flag2: " + Flag + ", time: " + Time.time);
+                }
+            }
+
+            else
+            {
+                print("outer else");
                 GetComponent<Renderer>().material.color = Color.red;
+
+                if (platformIndex < platform.Length)
+                {
+                    platform[platformIndex].GetComponent<Renderer>().material.color = Color.white;
+                }
+
                 //color = Color.red;
             }
-            if (detector._beat[(int)((i / timeDuration) * (length / 1024))] == 1 && Flag)
-            {
-                GameObject newTarget = Instantiate(target, transform.position, shootDirection);
-                teleportBase.GetComponent<Renderer>().material.color = Color.red;
-                Flag = false;
-                print("flag2" + Flag);
-            }
-            if (!Flag)
-            {
-                teleportBase.GetComponent<Renderer>().material.color = Color.black;
-
-            }
-            yield return 0;
+            yield return null;
         }
         // yield return 0;
     }
