@@ -72,6 +72,9 @@ public class TargetGenerator : MonoBehaviour
                         break;
 
                     case 2:
+                        index = 3;
+                        break;
+                    case 3:
                         while (platformIndex == playerPosIndex || platformIndex >= platform.Length)
                         {
                             platformIndex = Random.Range(0, 4);
@@ -82,8 +85,11 @@ public class TargetGenerator : MonoBehaviour
                         shootDirection = transform.rotation;
                         shootDirection.eulerAngles = new Vector3(0, shootDirection.eulerAngles.y, 0);
                         platform[platformIndex].GetComponent<Renderer>().material.color = Color.red;  // Color change to teleport           
-                        index = 1;
+                        index = 4;
                         Debug.Log("num = " + (int)((i / timeDuration) * (length / 1024)) + "Time = " + Time.time);
+                        break;                    
+                    case 4:
+                        index = 1;
                         break;
                 }
                 Debug.Log("Switch  Off "+ Time.time);
