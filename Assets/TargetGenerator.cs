@@ -27,6 +27,7 @@ public class TargetGenerator : MonoBehaviour
     //public Transform[] platform;
     public int platformIndex;
     public int playerPosIndex = 0;
+    int index = 1;
     // Use this for initialization
     void Start()
     {
@@ -51,71 +52,89 @@ public class TargetGenerator : MonoBehaviour
         //{
         //    yield return 0;
         //}
-
-
-        print("song length: " + timeDuration);
-
         for (float i = 0; i < timeDuration; i += Time.deltaTime)
         {
             //print("For: " + i + " ,deltaTime: " + Time.deltaTime);
 
 
-            if (detector._beat[(int)((i / timeDuration) * (length / 1024))] == 1)
+            if (detector._beat[(int)((i / timeDuration) * (length / 1024))] == 0 && detector._beat[(int)((i / timeDuration) * (length / 1024)) + 1] == 1)
             {
-                print("outer if");
 
-                if (!Flag)
+                switch (index)
                 {
-                    //ableTeleport = true;
-                    //platform[platformIndex].GetComponent<Renderer>().material.color = Color.red;
+                    case 1:
+                        GetComponent<Renderer>().material.color = Color.red;
+                        GameObject newTarget = Instantiate(target, transform.position, shootDirection); // Insatantiate a enemy
+                        Destroy(newTarget, 30f);
+                        //print("flag1: " + Flag + ", time: " + Time.time);
+                        Debug.Log("num = " + (int)((i / timeDuration) * (length / 1024)) + "Time = " + Time.time);
+                        index = 2;
+                        break;
 
-
-
-                    GetComponent<Renderer>().material.color = Color.red;
-                    GameObject newTarget = Instantiate(target, transform.position, shootDirection);
-                    Destroy(newTarget, 30f);
-                    print("flag1: " + Flag + ", time: " + Time.time);
-                    Flag = true;
+                    case 2:
+                        while (platformIndex == playerPosIndex || platformIndex >= platform.Length)
+                        {
+                            platformIndex = Random.Range(0, 4);
+                        }
+                        // platformIndex = Random.Range(0, 4);
+                        playerPosIndex = platformIndex;
+                        transform.LookAt(platform[platformIndex].transform);
+                        shootDirection = transform.rotation;
+                        shootDirection.eulerAngles = new Vector3(0, shootDirection.eulerAngles.y, 0);
+                        platform[platformIndex].GetComponent<Renderer>().material.color = Color.red;  // Color change to teleport           
+                        index = 1;
+                        Debug.Log("num = " + (int)((i / timeDuration) * (length / 1024)) + "Time = " + Time.time);
+                        break;
                 }
-                else
-                {
-                    while (platformIndex == playerPosIndex || platformIndex >= platform.Length)
-                    {
-                        platformIndex = Random.Range(0, 4);
-                    }
-
-                    playerPosIndex = platformIndex;
-
-                    //print("platformIndex: " + platformIndex + ", " + platform.Length);
-                    transform.LookAt(platform[platformIndex].transform);
-                    shootDirection = transform.rotation;
-                    shootDirection.eulerAngles = new Vector3(0, shootDirection.eulerAngles.y, 0);
-
-                    platform[platformIndex].GetComponent<Renderer>().material.color = Color.black;
-                    Flag = false;
-                    print("flag2: " + Flag + ", time: " + Time.time);
-                }
+                Debug.Log("Switch  Off "+ Time.time);
             }
+
+            //    if (!Flag)
+            //    {
+            //        //ableTeleport = true;
+            //        //platform[platformIndex].GetComponent<Renderer>().material.color = Color.red;
+            //        while (platformIndex == playerPosIndex || platformIndex >= platform.Length)
+            //        {
+            //            platformIndex = Random.Range(0, 4);
+            //        }
+            //        // platformIndex = Random.Range(0, 4);
+            //        playerPosIndex = platformIndex;
+            //        transform.LookAt(platform[platformIndex].transform);
+            //        shootDirection = transform.rotation;
+            //        shootDirection.eulerAngles = new Vector3(0, shootDirection.eulerAngles.y, 0);
+
+
+            //        GetComponent<Renderer>().material.color = Color.red;
+            //        GameObject newTarget = Instantiate(target, transform.position, shootDirection); // Insatantiate a enemy
+            //        Destroy(newTarget, 30f);
+            //        print("flag1: " + Flag + ", time: " + Time.time);
+            //        Flag = true;
+            //        // yield return 0;
+            //    }
+            //    else
+            //    {
+
+
+            //        platform[platformIndex].GetComponent<Renderer>().material.color = Color.red;  // Color change to teleport                
+            //        Flag = false;
+            //        // yield return 0;
+
+            //    }
+
+            //}
 
             else
             {
-                print("outer else");
                 GetComponent<Renderer>().material.color = Color.red;
-                //if (teleportManager.playerPos)
-                //{
-
-                //} 
-                ableTeleport = true;
-
+                //ableTeleport = true;
                 if (platformIndex < platform.Length)
                 {
                     platform[platformIndex].GetComponent<Renderer>().material.color = Color.white;
                 }
-
-                //color = Color.red;
+                Debug.Log("Else  Off " + Time.time);
             }
-            yield return null;
+            //Debug.Log("Else  Off");
+            yield return 0;
         }
-        // yield return 0;
     }
 }
