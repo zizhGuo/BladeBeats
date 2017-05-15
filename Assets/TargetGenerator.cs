@@ -81,7 +81,7 @@ public class TargetGenerator : MonoBehaviour
                         }
                         // platformIndex = Random.Range(0, 4);
                         playerPosIndex = platformIndex;
-                        transform.LookAt(platform[platformIndex].transform);
+                        transform.LookAt(directionalTarget[platformIndex].transform);
                         shootDirection = transform.rotation;
                         shootDirection.eulerAngles = new Vector3(0, shootDirection.eulerAngles.y, 0);
                         platform[platformIndex].GetComponent<Renderer>().material.color = Color.red;  // Color change to teleport           
