@@ -13,7 +13,7 @@ public class TargetGenerator : MonoBehaviour
     public Quaternion shootDirection;
     public int stanceIndex;
 
-    WaveFileReader wfr = new WaveFileReader(@"D:\BeatDetectionProgram\Assets\QHC.wav");
+    WaveFileReader wfr = new WaveFileReader(@"C:\Users\William\Desktop\BladeBeats\Assets\QHC.wav");
     BeatDetectorTest detector = new BeatDetectorTest();
     int length;
     public int timeDuration = 232;
@@ -29,6 +29,12 @@ public class TargetGenerator : MonoBehaviour
     public int playerPosIndex = 0;
     int index = 1;
     // Use this for initialization
+
+    //This is the particlesystem
+    public ParticleSystem[] flames;
+    bool status = false;
+   // private int status = 1;
+
     void Start()
     {
         detector.WavReader(wfr);
@@ -57,9 +63,24 @@ public class TargetGenerator : MonoBehaviour
             //print("For: " + i + " ,deltaTime: " + Time.deltaTime);
 
 
-            if (detector._beat[(int)((i / timeDuration) * (length / 1024))] == 0 && detector._beat[(int)((i / timeDuration) * (length / 1024)) + 1] == 1)
+            var em0 = flames[0].GetComponent<ParticleSystem>().emission;
+            var em1 = flames[1].GetComponent<ParticleSystem>().emission;
+
+            if (status)
             {
 
+                em0.enabled = false;
+                em1.enabled = false;
+            }
+            else
+            {
+                em0.enabled = true;
+                em1.enabled = true;
+
+            }
+
+            if (detector._beat[(int)((i / timeDuration) * (length / 1024))] == 0 && detector._beat[(int)((i / timeDuration) * (length / 1024)) + 1] == 1)
+            {
                 switch (index)
                 {
                     case 1:
@@ -67,12 +88,14 @@ public class TargetGenerator : MonoBehaviour
                         GameObject newTarget = Instantiate(target, transform.position, shootDirection); // Insatantiate a enemy
                         Destroy(newTarget, 30f);
                         //print("flag1: " + Flag + ", time: " + Time.time);
-                        Debug.Log("num = " + (int)((i / timeDuration) * (length / 1024)) + "Time = " + Time.time);
+                        // Debug.Log("num = " + (int)((i / timeDuration) * (length / 1024)) + "Time = " + Time.time);
                         index = 2;
+                        status = !status;
                         break;
 
                     case 2:
                         index = 3;
+                       // status = 3;
                         break;
                     case 3:
                         while (platformIndex == playerPosIndex || platformIndex >= platform.Length)
@@ -86,13 +109,15 @@ public class TargetGenerator : MonoBehaviour
                         shootDirection.eulerAngles = new Vector3(0, shootDirection.eulerAngles.y, 0);
                         platform[platformIndex].GetComponent<Renderer>().material.color = Color.red;  // Color change to teleport           
                         index = 4;
-                        Debug.Log("num = " + (int)((i / timeDuration) * (length / 1024)) + "Time = " + Time.time);
-                        break;                    
+                        status = !status;
+                        //  Debug.Log("num = " + (int)((i / timeDuration) * (length / 1024)) + "Time = " + Time.time);
+                        break;
                     case 4:
                         index = 1;
+                        //status = 0;
                         break;
                 }
-                Debug.Log("Switch  Off "+ Time.time);
+                // Debug.Log("Switch  Off "+ Time.time);
             }
 
             //    if (!Flag)
@@ -137,7 +162,7 @@ public class TargetGenerator : MonoBehaviour
                 {
                     platform[platformIndex].GetComponent<Renderer>().material.color = Color.white;
                 }
-                Debug.Log("Else  Off " + Time.time);
+                // Debug.Log("Else  Off " + Time.time);
             }
             //Debug.Log("Else  Off");
             yield return 0;
