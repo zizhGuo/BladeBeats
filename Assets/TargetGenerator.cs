@@ -33,7 +33,7 @@ public class TargetGenerator : MonoBehaviour
     //This is the particlesystem
     public ParticleSystem[] flames;
     bool status = false;
-   // private int status = 1;
+    // private int status = 1;
 
     void Start()
     {
@@ -61,25 +61,75 @@ public class TargetGenerator : MonoBehaviour
         for (float i = 0; i < timeDuration; i += Time.deltaTime)
         {
             //print("For: " + i + " ,deltaTime: " + Time.deltaTime);
-
-
             var em0 = flames[0].GetComponent<ParticleSystem>().emission;
             var em1 = flames[1].GetComponent<ParticleSystem>().emission;
+            var em2 = flames[2].GetComponent<ParticleSystem>().emission;
+            var em3 = flames[3].GetComponent<ParticleSystem>().emission;
+            var em4 = flames[4].GetComponent<ParticleSystem>().emission;
+            var em5 = flames[5].GetComponent<ParticleSystem>().emission;
+            var em6 = flames[6].GetComponent<ParticleSystem>().emission;
+            var em7 = flames[7].GetComponent<ParticleSystem>().emission;
+            em0.enabled = false;
+            em1.enabled = false;
+            em2.enabled = false;
+            em3.enabled = false;
+            em4.enabled = false;
+            em5.enabled = false;
+            em6.enabled = false;
+            em7.enabled = false;
 
             if (status)
             {
-
-                em0.enabled = false;
-                em1.enabled = false;
+                switch (playerPosIndex)
+                {
+                    case 0:
+                        em0.enabled = false;
+                        em1.enabled = false;
+                        break;
+                    case 1:
+                        em2.enabled = false;
+                        em3.enabled = false;
+                        break;
+                    case 2:
+                        em4.enabled = false;
+                        em5.enabled = false;
+                        break;
+                    case 3:
+                        em6.enabled = false;
+                        em7.enabled = false;
+                        break;
+                }
+                
             }
             else
             {
-                em0.enabled = true;
-                em1.enabled = true;
+                switch (playerPosIndex)
+                {
+                    case 0:
+                        em0.enabled = true;
+                        em1.enabled = true;
+                        break;
+                    case 1:
+                        em2.enabled = true;
+                        em3.enabled = true;
+                        break;
+                    case 2:
+                        em4.enabled = true;
+                        em5.enabled = true;
+                        break;
+                    case 3:
+                        em6.enabled = true;
+                        em7.enabled = true;
+                        break;
+                }
+
 
             }
-
-            if (detector._beat[(int)((i / timeDuration) * (length / 1024))] == 0 && detector._beat[(int)((i / timeDuration) * (length / 1024)) + 1] == 1)
+            while (platformIndex == playerPosIndex || platformIndex >= platform.Length)
+            {
+                platformIndex = Random.Range(0, 4);
+            }
+            if (detector._beat[(int)((i / (timeDuration+0.23f)) * (length / 1024))] == 0 && detector._beat[(int)((i / (timeDuration+0.23)) * (length / 1024)) + 1] == 1)
             {
                 switch (index)
                 {
@@ -95,64 +145,41 @@ public class TargetGenerator : MonoBehaviour
 
                     case 2:
                         index = 3;
-                       // status = 3;
+                        // status = 3;
                         break;
                     case 3:
-                        while (platformIndex == playerPosIndex || platformIndex >= platform.Length)
-                        {
-                            platformIndex = Random.Range(0, 4);
-                        }
+                        index = 4;
+                        break;
+                    case 4:
+                        index = 5;
+                        //status = 0;
+                        break;
+                    case 5:
+
+
                         // platformIndex = Random.Range(0, 4);
                         playerPosIndex = platformIndex;
                         transform.LookAt(directionalTarget[platformIndex].transform);
                         shootDirection = transform.rotation;
                         shootDirection.eulerAngles = new Vector3(0, shootDirection.eulerAngles.y, 0);
                         platform[platformIndex].GetComponent<Renderer>().material.color = Color.red;  // Color change to teleport           
-                        index = 4;
+                        index = 6;
                         status = !status;
                         //  Debug.Log("num = " + (int)((i / timeDuration) * (length / 1024)) + "Time = " + Time.time);
                         break;
-                    case 4:
-                        index = 1;
-                        //status = 0;
+                    case 6:
+                        index = 7;
                         break;
+                    case 7:
+                        index = 8;
+                        break;
+                    case 8:
+                        index = 1;
+                        break;
+
                 }
                 // Debug.Log("Switch  Off "+ Time.time);
             }
-
-            //    if (!Flag)
-            //    {
-            //        //ableTeleport = true;
-            //        //platform[platformIndex].GetComponent<Renderer>().material.color = Color.red;
-            //        while (platformIndex == playerPosIndex || platformIndex >= platform.Length)
-            //        {
-            //            platformIndex = Random.Range(0, 4);
-            //        }
-            //        // platformIndex = Random.Range(0, 4);
-            //        playerPosIndex = platformIndex;
-            //        transform.LookAt(platform[platformIndex].transform);
-            //        shootDirection = transform.rotation;
-            //        shootDirection.eulerAngles = new Vector3(0, shootDirection.eulerAngles.y, 0);
-
-
-            //        GetComponent<Renderer>().material.color = Color.red;
-            //        GameObject newTarget = Instantiate(target, transform.position, shootDirection); // Insatantiate a enemy
-            //        Destroy(newTarget, 30f);
-            //        print("flag1: " + Flag + ", time: " + Time.time);
-            //        Flag = true;
-            //        // yield return 0;
-            //    }
-            //    else
-            //    {
-
-
-            //        platform[platformIndex].GetComponent<Renderer>().material.color = Color.red;  // Color change to teleport                
-            //        Flag = false;
-            //        // yield return 0;
-
-            //    }
-
-            //}
 
             else
             {
