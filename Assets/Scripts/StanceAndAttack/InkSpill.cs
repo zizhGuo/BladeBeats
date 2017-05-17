@@ -60,7 +60,6 @@ public class InkSpill : MonoBehaviour
                 cutForce.y += betterRandom(-maxAngleDiff, maxAngleDiff) / 100f;
                 cutForce.z += betterRandom(-maxAngleDiff, maxAngleDiff) / 100f;
                 //print(cutForce);
-
                 spillDir.SetLookRotation(col.impulse.normalized, Vector3.up);
 
                 for (int i = 0; i <= betterRandom(minDropAmount, maxDropAmount); i++)

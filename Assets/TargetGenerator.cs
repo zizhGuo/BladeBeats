@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using NAudio.Wave;
 
 public class TargetGenerator : MonoBehaviour
@@ -9,6 +10,10 @@ public class TargetGenerator : MonoBehaviour
     public Transform player;
     public GameObject teleportBase;
     public GameObject teleportManager;
+    public Text splashTime;
+    public Text countTime;
+    string splash;
+    string count;
 
     public Quaternion shootDirection;
     public int stanceIndex;
@@ -17,6 +22,7 @@ public class TargetGenerator : MonoBehaviour
     BeatDetectorTest detector = new BeatDetectorTest();
     int length;
     public int timeDuration = 232;
+    float timeDurationSeconds;
     public float delayTime = 1.7f;
     public int interval = 10;
     public int amplitude = 5000;
@@ -41,6 +47,8 @@ public class TargetGenerator : MonoBehaviour
         length = detector.length;
         detector.VarDefine();  //Define the variables
         detector.AudioProcess(); // Audio Process and Beats Detecting
+        timeDurationSeconds = wfr.TotalTime.Seconds;
+
         StartCoroutine(TargetInitiate());
 
     }
@@ -48,6 +56,7 @@ public class TargetGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //timer.text = Time.time.ToString();
         //transform.LookAt(player);
         //shootDirection = transform.rotation;
         //shootDirection.eulerAngles = new Vector3(0, shootDirection.eulerAngles.y, 0);
@@ -58,6 +67,9 @@ public class TargetGenerator : MonoBehaviour
         //{
         //    yield return 0;
         //}
+        Debug.Log("Anything");
+
+        Debug.Log("Drum timeduration: " + timeDurationSeconds);
         for (float i = 0; i < timeDuration; i += Time.deltaTime)
         {
             //print("For: " + i + " ,deltaTime: " + Time.deltaTime);
@@ -80,6 +92,7 @@ public class TargetGenerator : MonoBehaviour
 
             if (status)
             {
+
                 switch (playerPosIndex)
                 {
                     case 0:
@@ -99,7 +112,7 @@ public class TargetGenerator : MonoBehaviour
                         em7.enabled = false;
                         break;
                 }
-                
+
             }
             else
             {
@@ -125,22 +138,33 @@ public class TargetGenerator : MonoBehaviour
 
 
             }
+            splashTime.text = splash;
+            countTime.text = count;
+
+            //float seconds = instantiateTime - flameTime;
+            //timer.text = seconds.ToString();
+           // timer.text = instantiateTime;
+
             while (platformIndex == playerPosIndex || platformIndex >= platform.Length)
             {
                 platformIndex = Random.Range(0, 4);
             }
-            if (detector._beat[(int)((i / (timeDuration+0.23f)) * (length / 1024))] == 0 && detector._beat[(int)((i / (timeDuration+0.23)) * (length / 1024)) + 1] == 1)
+            if (detector._beat[(int)((i / (timeDuration + 0.23f)) * (length / 1024))] == 0 && detector._beat[(int)((i / (timeDuration + 0.23)) * (length / 1024)) + 1] == 1)
             {
+
+
                 switch (index)
                 {
                     case 1:
                         GetComponent<Renderer>().material.color = Color.red;
                         GameObject newTarget = Instantiate(target, transform.position, shootDirection); // Insatantiate a enemy
+                        Debug.Log("Initiate");
                         Destroy(newTarget, 30f);
                         //print("flag1: " + Flag + ", time: " + Time.time);
                         // Debug.Log("num = " + (int)((i / timeDuration) * (length / 1024)) + "Time = " + Time.time);
                         index = 2;
                         status = !status;
+                        splash = Time.time.ToString(); ;
                         break;
 
                     case 2:
@@ -165,6 +189,7 @@ public class TargetGenerator : MonoBehaviour
                         platform[platformIndex].GetComponent<Renderer>().material.color = Color.red;  // Color change to teleport           
                         index = 6;
                         status = !status;
+                        count = Time.time.ToString();
                         //  Debug.Log("num = " + (int)((i / timeDuration) * (length / 1024)) + "Time = " + Time.time);
                         break;
                     case 6:
