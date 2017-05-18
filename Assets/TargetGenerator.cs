@@ -38,7 +38,7 @@ public class TargetGenerator : MonoBehaviour
 
     //This is the particlesystem
     public ParticleSystem[] flames;
-    bool status = false;
+    public bool status = false;
     // private int status = 1;
 
     void Start()
@@ -138,8 +138,8 @@ public class TargetGenerator : MonoBehaviour
 
 
             }
-            splashTime.text = splash;
-            countTime.text = count;
+          //  splashTime.text = splash;
+            //countTime.text = count;
 
             //float seconds = instantiateTime - flameTime;
             //timer.text = seconds.ToString();
@@ -164,7 +164,7 @@ public class TargetGenerator : MonoBehaviour
                         // Debug.Log("num = " + (int)((i / timeDuration) * (length / 1024)) + "Time = " + Time.time);
                         index = 2;
                         status = !status;
-                        splash = Time.time.ToString(); ;
+           //             splash = Time.time.ToString(); ;
                         break;
 
                     case 2:
@@ -189,7 +189,7 @@ public class TargetGenerator : MonoBehaviour
                         platform[platformIndex].GetComponent<Renderer>().material.color = Color.red;  // Color change to teleport           
                         index = 6;
                         status = !status;
-                        count = Time.time.ToString();
+         //               count = Time.time.ToString();
                         //  Debug.Log("num = " + (int)((i / timeDuration) * (length / 1024)) + "Time = " + Time.time);
                         break;
                     case 6:

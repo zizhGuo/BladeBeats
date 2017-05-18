@@ -24,6 +24,8 @@ public class InkSpill : MonoBehaviour
     public Quaternion spillDir;
     public AudioClip currentClip;
 
+    public float collisionTime;
+
     // Use this for initialization
     void Start ()
     {
@@ -42,6 +44,7 @@ public class InkSpill : MonoBehaviour
         Collider coL = col.collider;
         colPos = col.contacts[0].point;
         //print(coL.name);
+        collisionTime = Time.time;
 
         if (col.transform.name == "BladeEdgeA" || col.transform.name == "BladeEdgeB")
         {
